@@ -20,6 +20,6 @@ services:
       - MYSQL_DATABASE=cinema
       - MYSQL_HOSTNAME=cinemadb
       - MYSQL_PORT=3306
-    command: python ./src/index.py
+    command: "python ./src/index.py"
     depends_on:
       - db
