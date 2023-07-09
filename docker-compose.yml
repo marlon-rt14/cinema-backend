@@ -3,7 +3,7 @@ services:
     image: mysql
     container_name: ${MYSQL_HOSTNAME}
     env_file:
-      - ./.env
+      - ./src/.env
     ports:
       - ${MYSQL_EXPOSE_PORT}:${MYSQL_LOCAL_PORT}
     environment:
