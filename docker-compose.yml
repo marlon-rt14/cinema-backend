@@ -1,28 +1,31 @@
 services:
   db:
     image: mysql
-    container_name: cinemadb
+    container_name: ${MYSQL_HOSTNAME}
+    env_file:
+      - ./.env
     ports:
-      - "3306:3306"
+      - ${MYSQL_EXPOSE_PORT}:${MYSQL_LOCAL_PORT}
     environment:
-      - MYSQL_ROOT_PASSWORD=marlon
-      - MYSQL_DATABASE=cinema
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_TCP_PORT=${MYSQL_LOCAL_PORT}
   backend:
     image: "python:3.11.1"
     container_name: cinema-backend
     build: .
     ports:
-      - "5000:5000"
+      - ${SERVER_EXPOSE_PORT}:${SERVER_LOCAL_PORT}
     environment:
       - MYSQL_USERNAME=root
-      - MYSQL_PASSWORD=marlon
-      - MYSQL_DATABASE=cinema
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
       # Podemos poner el nombre del servidor o el nombre del contenedor
-      - MYSQL_HOSTNAME=cinemadb
-      - MYSQL_PORT=3306
+      - MYSQL_HOSTNAME=${MYSQL_HOSTNAME}
+      - MYSQL_PORT=${MYSQL_EXPOSE_PORT}
     command: sh -c "sleep 5s && python ./src/index.py"
     depends_on:
       - db
-    # Links tambien se puede reemplazar con "network", no es necesario con mongodb (verificar)
+    # Links tambien se puede reemplazar con "network", no es necesario 'links' con mongodb (verificar)
     links:
       - db
