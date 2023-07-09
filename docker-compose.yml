@@ -14,6 +14,8 @@ services:
     image: "python:3.11.1"
     container_name: cinema-backend
     build: .
+    env_file:
+      - ./.env
     ports:
       - $SERVER_EXPOSE_PORT:$SERVER_LOCAL_PORT
     environment:
@@ -23,6 +25,7 @@ services:
       # Podemos poner el nombre del servidor o el nombre del contenedor
       - MYSQL_HOSTNAME=$MYSQL_HOSTNAME
       - MYSQL_PORT=$MYSQL_EXPOSE_PORT
+      - SECRET_KEY=$SECRET_KEY
     command: sh -c "sleep 5s && python ./src/index.py"
     depends_on:
       - db
