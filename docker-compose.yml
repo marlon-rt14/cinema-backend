@@ -13,14 +13,16 @@ services:
     build: .
     ports:
       - "5000:5000"
-    volumes:
-      - .:/code
     environment:
       - MYSQL_USERNAME=root
       - MYSQL_PASSWORD=marlon
       - MYSQL_DATABASE=cinema
+      # Podemos poner el nombre del servidor o el nombre del contenedor
       - MYSQL_HOSTNAME=cinemadb
       - MYSQL_PORT=3306
-    command: python ./src/index.py
+    command: sh -c "sleep 5s && python ./src/index.py"
     depends_on:
+      - db
+    # Links tambien se puede reemplazar con "network", no es necesario con mongodb (verificar)
+    links:
       - db
