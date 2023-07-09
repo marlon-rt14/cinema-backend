@@ -1,28 +1,28 @@
 services:
   db:
     image: mysql
-    container_name: ${MYSQL_HOSTNAME}
+    container_name: $MYSQL_HOSTNAME
     env_file:
       - ./.env
     ports:
-      - ${MYSQL_EXPOSE_PORT}:${MYSQL_LOCAL_PORT}
+      - $MYSQL_EXPOSE_PORT:$MYSQL_LOCAL_PORT
     environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_TCP_PORT=${MYSQL_LOCAL_PORT}
+      - MYSQL_ROOT_PASSWORD=$MYSQL_PASSWORD
+      - MYSQL_DATABASE=$MYSQL_DATABASE
+      - MYSQL_TCP_PORT=$MYSQL_LOCAL_PORT
   backend:
     image: "python:3.11.1"
     container_name: cinema-backend
     build: .
     ports:
-      - ${SERVER_EXPOSE_PORT}:${SERVER_LOCAL_PORT}
+      - $SERVER_EXPOSE_PORT:$SERVER_LOCAL_PORT
     environment:
       - MYSQL_USERNAME=root
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+      - MYSQL_DATABASE=$MYSQL_DATABASE
       # Podemos poner el nombre del servidor o el nombre del contenedor
-      - MYSQL_HOSTNAME=${MYSQL_HOSTNAME}
-      - MYSQL_PORT=${MYSQL_EXPOSE_PORT}
+      - MYSQL_HOSTNAME=$MYSQL_HOSTNAME
+      - MYSQL_PORT=$MYSQL_EXPOSE_PORT
     command: sh -c "sleep 5s && python ./src/index.py"
     depends_on:
       - db
