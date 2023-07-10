@@ -38,3 +38,8 @@ services:
     links:
       - db
     restart: on-failure
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:$SERVER_EXPOSE_PORT"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
