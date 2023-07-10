@@ -5,7 +5,7 @@ services:
     env_file:
       - ./.env
     ports:
-      - $MYSQL_EXPOSE_PORT=3306
+      - $MYSQL_EXPOSE_PORT:3306
     environment:
       - MYSQL_ROOT_PASSWORD=$MYSQL_PASSWORD
       - MYSQL_DATABASE=$MYSQL_DATABASE
