@@ -5,10 +5,16 @@ services:
     env_file:
       - ./.env
     ports:
-      - $MYSQL_EXPOSE_PORT:3306
+      - $MYSQL_EXPOSE_PORT:$MYSQL_LOCAL_PORT
     environment:
       - MYSQL_ROOT_PASSWORD=$MYSQL_PASSWORD
       - MYSQL_DATABASE=$MYSQL_DATABASE
+      - MYSQL_TCP_PORT=$MYSQL_LOCAL_PORT
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhsot"]
+      timeout: 20s
+      retries: 10
   backend:
     image: "python:3.11.1"
     container_name: cinema-backend
@@ -31,3 +37,4 @@ services:
     # Links tambien se puede reemplazar con "network", no es necesario 'links' con mongodb (verificar)
     links:
       - db
+    restart: on-failure
