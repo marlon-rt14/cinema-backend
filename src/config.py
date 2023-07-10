@@ -4,7 +4,6 @@ from os import getenv, path
 if (
     not getenv("MYSQL_PASSWORD")
     or not getenv("MYSQL_DATABASE")
-    or not getenv("MYSQL_LOCAL_PORT")
 ):
     print("Loading environment variables from Dockerfile manually...")
     # Las variables de entorno de Dockerfile, internamente en el proyecto crea un archivo .env, y es la ruta de ese archivo que se carga aqui. 
